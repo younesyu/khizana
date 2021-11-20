@@ -1,0 +1,175 @@
+<!--
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Entrée</title>
+    <style>
+        #preview_table {
+            width: 80vw;
+        }
+    </style>
+</head>
+<body>
+    <span>Entrée</span>
+    <textarea id="user_input"></textarea>
+    <table id="preview_table">
+        <thead>
+            <tr>
+                <th>item</th>
+                <th>Désignation</th>
+                <th>En stock</th>
+                <th>Approvionnement</th>
+                <th>Après opération</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+    <button id="validate-button">Valider</button>
+
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.3/css/bulma.min.css" integrity="sha512-IgmDkwzs96t4SrChW29No3NXBIBv8baW490zk5aXvhCD8vuZM3yUSkbyTBcXohkySecyzIrUwiF/qV0cuPcL3Q==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        const cache = new Map();
+        let dataToShow = [];
+        function isValidLine(line) {
+            const regex = /^[0-9]*[ ]*[,.;/][ ]*[0-9]+[ ]*$/;
+            return regex.test(line);
+        }
+        function formatValidLine(validLine) {
+            return validLine.split(/[ ]*[,.;/][ ]*/);
+        }
+        function groupByArray(xs, key) {
+            return xs.reduce(function (rv, x) {
+                let v = key instanceof Function ? key(x) : x[key];
+                let el = rv.find((r) => r && r.key === v);
+                if (el) {
+                    el.values.push(x[1]);
+                } else {
+                    rv.push({key: v, values: [x[1]]});
+                }
+                return rv;
+            }, []);
+        }
+        document.addEventListener("keyup", async ev => {
+            if (ev.key === "Enter") {
+                const input = document.getElementById("user_input").value;
+                const lines = input.split("\n");
+                let validLines = lines.filter(isValidLine).map(formatValidLine);
+                validLines = groupByArray(validLines, validLine => validLine[0]);
+                validLines = validLines.map(validLine => {
+                    validLine = [validLine.key,
+                        validLine.values.reduce(
+                            ((previousValue, currentValue) =>
+                                parseInt(previousValue) + parseInt(currentValue)),
+                            0)];
+                    return validLine;
+                });
+                const linesToFetch = new Set();
+                dataToShow = [];
+                validLines.forEach(validLine => {
+                    const dataInCache = cache.get(validLine[0]);
+                    let secondArgumentInCache = dataInCache == null
+                        ? null : dataInCache["quantity"];
+
+                    if (cache.has(validLine[0])) {
+                        if (secondArgumentInCache === validLine[1]) {
+                            dataToShow.push(cache.get(validLine[0]));
+                        } else {
+                            linesToFetch.add(validLine);
+                        }
+                    } else {
+                        linesToFetch.add(validLine);
+                    }
+                });
+                const fetchedLines = await fetchLines(linesToFetch);
+                fetchedLines.forEach(fetchedLine => {
+                    // Add "incoming" field to the fetchedLine
+                    const associatedValidLine = validLines
+                        .find(validLine => {
+                            return parseInt(validLine[0]) === fetchedLine.id;
+                        });
+                    fetchedLine["incoming"] = parseInt(associatedValidLine[1]);
+
+                    cache.set(fetchedLine.id.toString(), fetchedLine);
+                    dataToShow.push(fetchedLine);
+                });
+
+                showData(dataToShow);
+            }
+        });
+        async function fetchLines(linesToFetch) {
+            const requestBody = {};
+            const formattedLines = [];
+
+            linesToFetch.forEach(lineToFetch => {
+                const toolId = lineToFetch[0];
+                formattedLines.push(toolId);
+            });
+
+            requestBody.data = formattedLines;
+
+            const response = await fetch("/tools/find", {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(requestBody),
+            });
+            return await response.json();
+        }
+
+        function showData(data) {
+            const body = document.querySelector("#preview_table tbody");
+            body.innerHTML = "";
+
+            for (const datum of data) {
+                const row = document.createElement("tr");
+
+                const itemTd = document.createElement("td");
+                itemTd.textContent = datum.id;
+                row.append(itemTd);
+
+                const descriptionTd = document.createElement("td");
+                descriptionTd.textContent = datum.description;
+                row.append(descriptionTd);
+
+                const enStockTd = document.createElement("td");
+                enStockTd.textContent = datum.quantity;
+                row.append(enStockTd);
+
+                const demandeTd = document.createElement("td");
+                demandeTd.textContent = datum.incoming;
+                row.append(demandeTd);
+
+                const apresOperationTd = document.createElement("td");
+                apresOperationTd.textContent = datum.quantity + datum.incoming;
+
+                row.append(apresOperationTd);
+
+                body.append(row);
+            }
+        }
+
+        document.getElementById("validate-button").addEventListener("click", async function() {
+            if (dataToShow.length === 0) return;
+            const requestBody = {
+                "is-entry": true,
+                "validated-tools": dataToShow,
+            };
+
+            const response = await fetch("/operation/save", {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(requestBody),
+            });
+            return "redirect:/operations";
+        });
+
+    </script>
+</body>
+</html>-->

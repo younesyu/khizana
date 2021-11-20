@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Inventaire</title>
+
+    <!-- Google Font: Source Sans Pro -->
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="/static/plugins/fontawesome-free/css/all.min.css">
+    <!-- DataTables -->
+    <link rel="stylesheet" href="/static/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="/static/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+    <link rel="stylesheet" href="/static/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="/static/dist/css/adminlte.min.css">
+</head>
+<body class="hold-transition layout-top-nav">
+<div class="wrapper">
+
+    <!-- Navbar -->
+    <nav class="main-header navbar navbar-expand-md navbar-dark">
+        <div class="container">
+            <a href="/home" class="navbar-brand">
+                <img src="/static/dist/img/khizana-logo2.png" alt="Khizana Logo" class="brand-image">
+            </a>
+
+            <button class="navbar-toggler order-1" type="button" data-toggle="collapse" data-target="#navbarCollapse"
+                    aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse order-3" id="navbarCollapse">
+                <ul class="navbar-nav">
+                    <li class="nav-item d-none d-sm-inline-block">
+                        <a href="/pages/tools" class="nav-link">Inventaire</a>
+                    </li>
+
+                    <li class="nav-item d-none d-sm-inline-block">
+                        <a href="/pages/operations" class="nav-link">Opérations</a>
+                    </li>
+
+                    <li class="nav-item d-none d-sm-inline-block">
+                        <a href="/pages/nouvelle-entree" class="nav-link">Nouvelle entrée</a>
+                    </li>
+                    <li class="nav-item d-none d-sm-inline-block">
+                        <a href="/pages/nouvelle-sortie" class="nav-link">Nouvelle sortie</a>
+                    </li>
+                </ul>
+
+                <!-- SEARCH FORM -->
+<!--
+                <form class="form-inline ml-0 ml-md-3">
+                    <div class="input-group input-group-sm">
+                        <input class="form-control form-control-navbar" type="search" placeholder="Search"
+                               aria-label="Search">
+                        <div class="input-group-append">
+                            <button class="btn btn-navbar" type="submit">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+-->
+            </div>
+        </div>
+    </nav>
+    <!-- /.navbar -->
+
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <div class="content-header">
+            <div class="container">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1 class="m-0"> Inventaire</h1>
+                    </div><!-- /.col -->
+                </div><!-- /.row -->
+            </div><!-- /.container-fluid -->
+        </div>
+        <!-- /.content-header -->
+
+        <section class="content">
+            <div class="container-fluid">
+                <div class="row justify-content-center">
+                    <div class="col-9">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title">
+                                    Cette page regroupe l'ensemble de l'inventaire.
+                                    Vous pouvez effectuer des recherche par item,
+                                    filtrer par item, désignation, et présence ou non dans le stock.
+                                </h3>
+                            </div>
+                            <!-- /.card-header -->
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-sm-5">
+                                        <!-- select -->
+                                        <div class="form-group">
+                                            <label>Filtrer par catégorie</label>
+                                            <select class="custom-select" id="categorie-select">
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="separator col-sm-1"></div>
+                                    <div class="col-sm-5">
+                                        <!-- checkbox -->
+                                        <div class="form-group">
+                                            <label>Etat du stock</label>
+                                            <div class="row align-items-center">
+                                                <div class="custom-control custom-checkbox">
+                                                    <input class="custom-control-input" type="checkbox" name="enStockCheckBox" id="enStockCheckbox" value="en-stock">
+                                                    <label for="enStockCheckbox" class="custom-control-label">En Stock</label>
+                                                </div>
+                                                <span class="p-4"></span>
+                                                <div class="custom-control custom-checkbox">
+                                                    <input class="custom-control-input" type="checkbox" name="enStockCheckBox" id="ruptureCheckbox" value="rupture-stock">
+                                                    <label for="ruptureCheckbox" class="custom-control-label">Rupture de Stock</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-1 d-flex align-items-center">
+                                        <button class="btn btn-info" id="search-button"><i class="fas fa-search"></i></button>
+                                    </div>
+                                </div>
+
+                                <div id="example1_wrapper" class="dataTables_wrapper dt-bootstrap4">
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <table id="example1"
+                                                   class="table table-bordered table-striped dataTable dtr-inline"
+                                                   role="grid" aria-describedby="example1_info">
+                                                <thead>
+                                                <tr role="row">
+                                                    <th class="sorting sorting_asc" tabindex="0"
+                                                        rowspan="1" colspan="1"
+                                                        aria-sort="ascending">
+                                                        Item
+                                                    </th>
+                                                    <th class="sorting sorting_asc" tabindex="0"
+                                                        rowspan="1" colspan="1"
+                                                        aria-sort="ascending">
+                                                        Désignation
+                                                    </th>
+                                                    <th class="sorting sorting_asc" tabindex="0"
+                                                        rowspan="1" colspan="1"
+                                                        aria-sort="ascending">
+                                                        Quantité
+                                                    </th>
+                                                    <th class="sorting sorting_asc" tabindex="0"
+                                                        rowspan="1" colspan="1"
+                                                        aria-sort="ascending">
+                                                        Catégorie
+                                                    </th>
+                                                    <th class="sorting sorting_asc" tabindex="0"
+                                                        rowspan="1" colspan="1"
+                                                        aria-sort="ascending">
+                                                        Dernière opération
+                                                    </th>
+
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /.card-body -->
+                        </div>
+                        <!-- /.card -->
+                    </div>
+                    <!-- /.col -->
+                </div>
+                <!-- /.row -->
+            </div>
+            <!-- /.container-fluid -->
+        </section>
+    </div>
+    <!-- /.content-wrapper -->
+
+    <!-- Control Sidebar -->
+    <aside class="control-sidebar control-sidebar-dark">
+        <!-- Control sidebar content goes here -->
+    </aside>
+    <!-- /.control-sidebar -->
+
+    <!-- Modal -->
+    <div class="modal fade" id="modal-default" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title d-flex align-items-center w-100"></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Fermer">
+                        <span>&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div id="operation-metadata"></div>
+                    <div class="p-2" style="border-bottom: 1px solid #e9ecef;"></div>
+                    <div class="m-1 h3"> Détails de l'opération</div>
+                    <table class="w-100 p-1"></table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /.modal -->
+
+    <!-- Main Footer -->
+    <footer class="main-footer">
+        <!-- Default to the left -->
+        <strong>Copyright &copy; 2021 Younes ROUABHIA.</strong> Tous droits réservés.
+    </footer>
+</div>
+<!-- ./wrapper -->
+
+<!-- REQUIRED SCRIPTS -->
+
+<!-- jQuery -->
+<script src="/static/plugins/jquery/jquery.min.js"></script>
+<!-- Bootstrap 4 -->
+<script src="/static/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- DataTables  & Plugins -->
+<script src="/static/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="/static/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+<script src="/static/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+<script src="/static/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+<script src="/static/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+<script src="/static/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+<script src="/static/plugins/jszip/jszip.min.js"></script>
+<script src="/static/plugins/pdfmake/pdfmake.min.js"></script>
+<script src="/static/plugins/pdfmake/vfs_fonts.js"></script>
+<script src="/static/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
+<script src="/static/plugins/datatables-buttons/js/buttons.print.min.js"></script>
+<script src="/static/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+<!-- AdminLTE App -->
+<script src="/static/dist/js/adminlte.min.js"></script>
+<!-- Page specific script -->
+<script>
+    function buildUrl() {
+        let url = `/tools/table`;
+        let paramSign = "?";
+        if (document.getElementById("categorie-select").value != null) {
+            url += paramSign + "category=" + encodeURIComponent(document.getElementById("categorie-select").value);
+            paramSign = "&";
+        }
+        if (document.getElementById("enStockCheckbox").checked) {
+            url += paramSign + "etatDansStock=" + document.getElementById("enStockCheckbox").checked;
+            paramSign = "&";
+        }
+        if (document.getElementById("ruptureCheckbox").checked) {
+            url += paramSign + "etatDansStock=" + !document.getElementById("ruptureCheckbox").checked;
+        }
+        return url;
+    }
+    $(function () {
+        $("#example1").dataTable({
+            "ajax": {
+                "url": buildUrl(),
+                "contentType": "application/json",
+                "type": "POST",
+                "data": function(d) {
+                    return JSON.stringify(d);
+                },
+            },
+            "columns": [
+                { "data": "id"},
+                { "data": "description" },
+                { "data": "quantity" },
+                { "data": "category" },
+                { "data": "lastOperation",
+                    render: function(data, type, row, meta) {
+                        if (data == null) return null;
+
+                        return `<button class="btn btn-outline-info btn-block btn-flat"
+                                        type="button"
+                                        data-toggle="modal" onclick="showLastOperation(${data})"
+                                        data-target="#modal-default">
+                                    <i class="fas fa-search"></i> Détail de l'opération ${data}
+                                </button>`;
+                    },
+                }
+            ],
+            "processing": true,
+            "serverSide": true,
+            "responsive": true, "lengthChange": false, "autoWidth": false,
+            "language": {
+                "url": "https://cdn.datatables.net/plug-ins/1.11.3/i18n/fr_fr.json",
+            },
+            "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+        });
+    });
+
+    $("#search-button").on("click", function() {
+        $("#example1").DataTable().ajax.url(buildUrl()).load(null, false);
+    });
+
+    function parseJavaLocalDate(jsonLocalDate) {
+        return `${jsonLocalDate[2]}/${jsonLocalDate[1]}/${jsonLocalDate[0]} à ${jsonLocalDate[3]}:${jsonLocalDate[4]}`
+    }
+
+    async function showLastOperation(id) {
+        const response = await fetch(`/operation/${id}`);
+        const row = await response.json();
+
+        const operationId = row.id;
+        const details = row.details;
+        const horodatage = parseJavaLocalDate(row.dateTime);
+        const typeOperation = row.entry;
+        const withdrawnBy = row.withdrawnBy;
+        const typeOperationLabel = typeOperation
+            ? `<span class="flex-grow-1 text-sm-right" style="color: darkgreen;"><i class="fas fa-sign-in-alt"></i> Entrée</span>`
+            : `<span class="flex-grow-1 text-sm-right" style="color: darkred;"><i class="fas fa-sign-out-alt"></i> Sortie</span>`
+
+        let operationMetadata = `
+            <strong>Opération effectuée le ${horodatage}</strong>
+        `;
+        if (withdrawnBy) {
+            operationMetadata += `<br /><strong>Demandeur:</strong> ${withdrawnBy}`;
+        }
+        $('#operation-metadata').html(operationMetadata);
+
+        $("#modal-default .modal-title").html("Détail de l'opération " + operationId + " " + typeOperationLabel);
+        if ($.fn.DataTable.isDataTable("#modal-default .modal-body table")) {
+            $("#modal-default .modal-body table").DataTable().clear();
+            $("#modal-default .modal-body table").DataTable().destroy();
+
+        }
+        $("#modal-default .modal-body table").dataTable({
+            "data": details,
+            columns: [
+                { "data": "tool.id", "title": "Item" },
+                { "data": "tool.description", "title": "Description"  },
+                { "data": "quantity", "title": "Quantité"  },
+                { "data": "tool.category", "title": "Catégorie"  },
+            ],
+            paging: false,
+            searching: false,
+            info: false,
+            "language": {
+                "url": "https://cdn.datatables.net/plug-ins/1.11.3/i18n/fr_fr.json",
+            },
+        });
+    }
+
+
+    $(document).ready(async function() {
+        const categorieSelect = document.getElementById("categorie-select");
+
+        const emptyOption = document.createElement("option");
+        emptyOption.setAttribute("value", "");
+        emptyOption.innerText = "";
+        categorieSelect.append(emptyOption);
+
+        const response = await fetch("/tools/categories");
+        const categories = await response.json();
+
+        for (const category of categories) {
+            const option = document.createElement("option");
+            option.setAttribute("value", category);
+            option.innerText = category;
+            categorieSelect.append(option);
+        }
+    });
+
+</script>
+</body>
+</html>

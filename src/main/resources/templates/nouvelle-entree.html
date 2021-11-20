@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Nouvelle Entrée</title>
+
+    <!-- Google Font: Source Sans Pro -->
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="/static/plugins/fontawesome-free/css/all.min.css">
+    <!-- DataTables -->
+    <link rel="stylesheet" href="/static/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="/static/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+    <link rel="stylesheet" href="/static/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="/static/dist/css/adminlte.min.css">
+</head>
+<body class="hold-transition layout-top-nav">
+<div class="wrapper">
+
+    <!-- Navbar -->
+    <nav class="main-header navbar navbar-expand-md navbar-dark">
+        <div class="container">
+            <a href="/home" class="navbar-brand">
+                <img src="/static/dist/img/khizana-logo2.png" alt="Khizana Logo" class="brand-image">
+            </a>
+
+            <button class="navbar-toggler order-1" type="button" data-toggle="collapse" data-target="#navbarCollapse"
+                    aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse order-3" id="navbarCollapse">
+                <ul class="navbar-nav">
+                    <li class="nav-item d-none d-sm-inline-block">
+                        <a href="/pages/tools" class="nav-link">Inventaire</a>
+                    </li>
+
+                    <li class="nav-item d-none d-sm-inline-block">
+                        <a href="/pages/operations" class="nav-link">Opérations</a>
+                    </li>
+
+                    <li class="nav-item d-none d-sm-inline-block">
+                        <a href="/pages/nouvelle-entree" class="nav-link">Nouvelle entrée</a>
+                    </li>
+                    <li class="nav-item d-none d-sm-inline-block">
+                        <a href="/pages/nouvelle-sortie" class="nav-link">Nouvelle sortie</a>
+                    </li>
+                </ul>
+<!--
+                &lt;!&ndash; SEARCH FORM &ndash;&gt;
+                <form class="form-inline ml-0 ml-md-3">
+                    <div class="input-group input-group-sm">
+                        <input class="form-control form-control-navbar" type="search" placeholder="Search"
+                               aria-label="Search">
+                        <div class="input-group-append">
+                            <button class="btn btn-navbar" type="submit">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+-->
+            </div>
+        </div>
+    </nav>
+    <!-- /.navbar -->
+
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <div class="content-header">
+            <div class="container">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1 class="m-0"> Nouvelle Entrée</h1>
+                    </div><!-- /.col -->
+                    <div class="col-sm-6">
+                        <div class="float-sm-right">
+                            <button id="validate-button" type="button" class="btn btn-lg btn-success">Valider</button>
+                        </div>
+                    </div><!-- /.col -->
+                </div><!-- /.row -->
+            </div><!-- /.container-fluid -->
+        </div>
+        <!-- /.content-header -->
+
+        <section class="content">
+            <div class="container-fluid">
+                <div class="row justify-content-center">
+                    <div class="col-10">
+                        <div class="row">
+                            <div class="col-3">
+                                <textarea id="user_input" class="form-control h-100" rows="20" placeholder="item, quantité"></textarea>
+                            </div>
+                            <div class="col-9">
+                                <div class="card h-100">
+                                    <!-- /.card-header -->
+                                    <div class="card-body">
+                                        <div id="example1_wrapper" class="dataTables_wrapper dt-bootstrap4">
+                                            <div class="row">
+                                                <div class="col-sm-12">
+                                                    <table id="preview_table"
+                                                           class="table table-bordered table-striped dataTable dtr-inline"
+                                                           role="grid" aria-describedby="example1_info">
+                                                        <thead>
+                                                        <tr role="row">
+                                                            <th class="sorting sorting_asc" tabindex="0"
+                                                                rowspan="1" colspan="1"
+                                                                aria-sort="ascending">
+                                                                Item
+                                                            </th>
+                                                            <th class="sorting sorting_asc" tabindex="0"
+                                                                rowspan="1" colspan="1"
+                                                                aria-sort="ascending">
+                                                                Désignation
+                                                            </th>
+                                                            <th class="sorting sorting_asc" tabindex="0"
+                                                                rowspan="1" colspan="1"
+                                                                aria-sort="ascending">
+                                                                Quantité
+                                                            </th>
+                                                            <th class="sorting sorting_asc" tabindex="0"
+                                                                rowspan="1" colspan="1"
+                                                                aria-sort="ascending">
+                                                                Approvisionnement
+                                                            </th>
+                                                            <th class="sorting sorting_asc" tabindex="0"
+                                                                rowspan="1" colspan="1"
+                                                                aria-sort="ascending">
+                                                                Stock après opération
+                                                            </th>
+
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody>
+
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- /.card-body -->
+                                </div>
+                                <!-- /.card -->
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.col -->
+                </div>
+                <!-- /.row -->
+            </div>
+            <!-- /.container-fluid -->
+        </section>
+    </div>
+    <!-- /.content-wrapper -->
+
+    <!-- Control Sidebar -->
+    <aside class="control-sidebar control-sidebar-dark">
+        <!-- Control sidebar content goes here -->
+    </aside>
+    <!-- /.control-sidebar -->
+
+    <!-- Modal -->
+    <div class="modal fade" id="modal-default" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title d-flex align-items-center w-100"></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Fermer">
+                        <span>&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div id="operation-metadata"></div>
+                    <div class="p-2" style="border-bottom: 1px solid #e9ecef;"></div>
+                    <div class="m-1 h3"> Détails de l'opération</div>
+                    <table class="w-100 p-1"></table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /.modal -->
+
+    <!-- Main Footer -->
+    <footer class="main-footer">
+        <!-- Default to the left -->
+        <strong>Copyright &copy; 2021 Younes ROUABHIA.</strong> Tous droits réservés.
+    </footer>
+</div>
+<!-- ./wrapper -->
+
+<!-- REQUIRED SCRIPTS -->
+
+<!-- jQuery -->
+<script src="/static/plugins/jquery/jquery.min.js"></script>
+<!-- Bootstrap 4 -->
+<script src="/static/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- DataTables  & Plugins -->
+<script src="/static/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="/static/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+<script src="/static/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+<script src="/static/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+<script src="/static/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+<script src="/static/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+<script src="/static/plugins/jszip/jszip.min.js"></script>
+<script src="/static/plugins/pdfmake/pdfmake.min.js"></script>
+<script src="/static/plugins/pdfmake/vfs_fonts.js"></script>
+<script src="/static/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
+<script src="/static/plugins/datatables-buttons/js/buttons.print.min.js"></script>
+<script src="/static/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+<!-- AdminLTE App -->
+<script src="/static/dist/js/adminlte.min.js"></script>
+<!-- SweetAlert2 -->
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<!-- Page specific script -->
+<script>
+    const cache = new Map();
+    let dataToShow = [];
+    function isValidLine(line) {
+        const regex = /^[0-9]*[ ]*[,.;/][ ]*[0-9]+[ ]*$/;
+        return regex.test(line);
+    }
+    function formatValidLine(validLine) {
+        return validLine.split(/[ ]*[,.;/][ ]*/);
+    }
+    function groupByArray(xs, key) {
+        return xs.reduce(function (rv, x) {
+            let v = key instanceof Function ? key(x) : x[key];
+            let el = rv.find((r) => r && r.key === v);
+            if (el) {
+                el.values.push(x[1]);
+            } else {
+                rv.push({key: v, values: [x[1]]});
+            }
+            return rv;
+        }, []);
+    }
+    document.addEventListener("keyup", async ev => {
+        if (ev.key === "Enter") {
+            await parseUserInput();
+        }
+    });
+    parseUserInput();
+    async function parseUserInput() {
+        const input = document.getElementById("user_input").value;
+        const lines = input.split("\n");
+
+        let validLines = lines.filter(isValidLine).map(formatValidLine);
+        validLines = groupByArray(validLines, validLine => validLine[0]);
+        validLines = validLines.map(validLine => {
+            validLine = [validLine.key,
+                validLine.values.reduce(
+                    ((previousValue, currentValue) =>
+                        parseInt(previousValue) + parseInt(currentValue)),
+                    0)];
+            return validLine;
+        });
+
+        const linesToFetch = new Set();
+        dataToShow = [];
+
+        validLines.forEach(validLine => {
+            const dataInCache = cache.get(validLine[0]);
+            let secondArgumentInCache = dataInCache == null
+                ? null : dataInCache["quantity"];
+
+            if (cache.has(validLine[0])) {
+                if (secondArgumentInCache === validLine[1]) {
+                    dataToShow.push(cache.get(validLine[0]));
+                } else {
+                    linesToFetch.add(validLine);
+                }
+            } else {
+                linesToFetch.add(validLine);
+            }
+        });
+
+        const fetchedLines = await fetchLines(linesToFetch);
+
+        fetchedLines.forEach(fetchedLine => {
+            // Add "incoming" field to the fetchedLine
+            const associatedValidLine = validLines
+                .find(validLine => {
+                    return parseInt(validLine[0]) === fetchedLine.id;
+                });
+            fetchedLine["incoming"] = parseInt(associatedValidLine[1]);
+
+            cache.set(fetchedLine.id.toString(), fetchedLine);
+            dataToShow.push(fetchedLine);
+        });
+
+        showData(dataToShow);
+    }
+    async function fetchLines(linesToFetch) {
+        const requestBody = {};
+        const formattedLines = [];
+
+        linesToFetch.forEach(lineToFetch => {
+            const toolId = lineToFetch[0];
+            formattedLines.push(toolId);
+        });
+
+        requestBody.data = formattedLines;
+
+        const response = await fetch("/tools/find", {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(requestBody),
+        });
+        return await response.json();
+    }
+
+    function showData(data) {
+        const body = document.querySelector("#preview_table tbody");
+        body.innerHTML = "";
+
+        for (const datum of data) {
+            const row = document.createElement("tr");
+
+            const itemTd = document.createElement("td");
+            itemTd.textContent = datum.id;
+            row.append(itemTd);
+
+            const descriptionTd = document.createElement("td");
+            descriptionTd.textContent = datum.description;
+            row.append(descriptionTd);
+
+            const enStockTd = document.createElement("td");
+            enStockTd.textContent = datum.quantity;
+            row.append(enStockTd);
+
+            const demandeTd = document.createElement("td");
+            demandeTd.textContent = datum.incoming;
+            row.append(demandeTd);
+
+            const apresOperationTd = document.createElement("td");
+            apresOperationTd.textContent = datum.quantity + datum.incoming;
+
+            row.append(apresOperationTd);
+
+            body.append(row);
+        }
+    }
+
+    document.getElementById("validate-button").addEventListener("click", async function() {
+        if (dataToShow.length === 0) {
+            $(document).Toasts('create', {
+                class: 'bg-warning',
+                title: "Entrée invalide",
+                body: "Le champ de texte doit contenir au moins une ligne valide."
+            });
+
+            return;
+        }
+        const requestBody = {
+            "is-entry": true,
+            "validated-tools": dataToShow,
+        };
+
+        const response = await fetch("/operation/save", {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(requestBody),
+        });
+        if (response.status >= 400) {
+            $(document).Toasts('create', {
+                class: 'bg-danger',
+                title: "Une erreur inconnue s'est produite",
+                body: "Veuillez réessayer ultérieurement. Si le problème persiste, contactez l'administrateur."
+            });
+        } else if (response.status >= 200 && response.status < 400) {
+            Swal.fire({
+                title: 'Nouvelle entrée enregistrée!',
+                text: 'Vous allez être redirigé vers la page des opérations...',
+                icon: 'success',
+                showConfirmButton: false,
+                timer: 5000,
+                timerProgressBar: true,
+            }).then(() => {
+                window.location.replace("/pages/operations");
+            });
+        }
+    });
+
+</script>
+</body>
+</html>
